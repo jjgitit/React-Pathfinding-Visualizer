@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+}
+
+.node {
+  border-color: black;
+  display: inline-block;
+  border-style: solid;
+  width: 20px;
+  height: 20px;
+}
