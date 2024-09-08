@@ -1,40 +1,37 @@
 import React, { useState } from "react";
-import Node from './Node';
+import Node from "./Node";
 
 function Board() {
-
   const createNode = (row, col) => {
-    return ({
+    return {
       row,
       col,
-      isStart : false,
-      isEnd : false,
-      isWall : false,
-    })
-  }
-
+      isStart: false,
+      isEnd: false,
+      isWall: false,
+    };
+  };
 
   const newGrid = () => {
-    const grid = []
-    for (let row=0; row < 20; row++) {
-      const curRow = []
+    const grid = [];
+    for (let row = 0; row < 20; row++) {
+      const curRow = [];
       for (let col = 0; col < 40; col++) {
-        curRow.push(createNode(row, col))
+        curRow.push(createNode(row, col));
       }
-      grid.push(curRow)
+      grid.push(curRow);
     }
-    return grid
-  }
+    return grid;
+  };
 
-  const [grid, setGrid] = useState(newGrid)
-
+  const [grid, setGrid] = useState(newGrid);
 
   function handlMouseDown(row, col) {
-    console.log('mouse down!');
+    console.log("mouse down!");
   }
 
   function handleMouseUp(row, col) {
-    console.log('mouse up!')
+    console.log("mouse up!");
   }
 
   return (
@@ -45,21 +42,20 @@ function Board() {
             {row.map((node, colIdx) => {
               return (
                 <Node
-                  key = {(rowIdx, colIdx)}
-                  row = {row}
-                  col = {colIdx}
-                  isStart = {node.isStart}
-                  isEnd = {node.isEnd}
-                  isWall = {node.isWall}
+                  key={(rowIdx, colIdx)}
+                  row={row}
+                  col={colIdx}
+                  isStart={node.isStart}
+                  isEnd={node.isEnd}
+                  isWall={node.isWall}
                 />
-              )
+              );
             })}
           </div>
-        )
+        );
       })}
     </div>
-  )
+  );
 }
-
 
 export default Board;
