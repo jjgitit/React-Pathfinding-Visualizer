@@ -1,5 +1,11 @@
-body {
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100%;
 }
 
 .node {
@@ -8,4 +14,12 @@ body {
   border-style: solid;
   width: 20px;
   height: 20px;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
