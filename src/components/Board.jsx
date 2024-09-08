@@ -27,11 +27,11 @@ function Board() {
   const [grid, setGrid] = useState(newGrid);
 
   function handlMouseDown(row, col) {
-    console.log("mouse down!");
+    console.log({ row }, { col });
   }
 
   function handleMouseUp(row, col) {
-    console.log("mouse up!");
+    console.log(row, col);
   }
 
   return (
@@ -43,11 +43,12 @@ function Board() {
               return (
                 <Node
                   key={(rowIdx, colIdx)}
-                  row={row}
+                  row={rowIdx}
                   col={colIdx}
                   isStart={node.isStart}
                   isEnd={node.isEnd}
                   isWall={node.isWall}
+                  handleMouseDown={handlMouseDown}
                 />
               );
             })}
