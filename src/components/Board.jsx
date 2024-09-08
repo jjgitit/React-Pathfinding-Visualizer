@@ -12,6 +12,7 @@ function Board() {
     };
   };
 
+  //for initial board and whenever resetting board
   const newGrid = () => {
     const grid = [];
     for (let row = 0; row < 20; row++) {
@@ -24,14 +25,30 @@ function Board() {
     return grid;
   };
 
+  //make 'walls' when pressed
+  const toggleWall = (grid, row, col) => {
+    //we are shallow copying the grid so we don't update it without 'set' method
+    const newGrid = grid.slice();
+    const node = newGrid[row][col];
+    const newNode = {
+      ...node,
+      isWall: !node.isWall,
+    };
+    newGrid[row][col] = newNode;
+    return newGrid;
+  };
+
   const [grid, setGrid] = useState(newGrid);
 
   function handlMouseDown(row, col) {
-    console.log({ row }, { col });
+    if (!grid[row][col].isStart && !grid[row][col].isEnd) {
+      setGrid(toggleWall(grid, row, col));
+    }
+    console.log(grid[row][col]);
   }
 
   function handleMouseUp(row, col) {
-    console.log(row, col);
+    console.log({ row }, { col });
   }
 
   return (
