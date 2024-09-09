@@ -5,9 +5,7 @@ function Node(props) {
     <div
       className="node"
       onMouseDown={() => props.handleMouseDown(props.row, props.col)}
-    >
-      {props.col}
-    </div>
+    ></div>
   );
 }
 

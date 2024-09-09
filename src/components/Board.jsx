@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import Node from "./Node";
 
-function Board() {
+function Board(props) {
+  //these are for tracing if a user set start and end yet
+  const startNode = props.startNode
+  const endNode = props.endNode
+
   const createNode = (row, col) => {
     return {
       row,
@@ -26,6 +30,7 @@ function Board() {
   };
 
   //make 'walls' when pressed
+  //I need to check if the current node is start of end
   const toggleWall = (grid, row, col) => {
     //we are shallow copying the grid so we don't update it without 'set' method
     const newGrid = grid.slice();
@@ -47,8 +52,13 @@ function Board() {
     console.log(grid[row][col]);
   }
 
+  //may need this for dragging multiple cells to create walls, we'll see
   function handleMouseUp(row, col) {
     console.log({ row }, { col });
+  }
+  //coupled with handleMouseUp function
+  function handleMouseEnter(row, col) {
+    console.log({row}, {col})
   }
 
   return (

@@ -1,0 +1,11 @@
+.node {
+  border-color: black;
+  display: inline-block;
+  border-style: solid;
+  width: 30px;
+  height: 30px;
+}
+
+.wall {
+  background-color: black;
+}
