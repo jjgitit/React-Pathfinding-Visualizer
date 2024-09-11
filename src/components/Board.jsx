@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import Node from "./Node";
+import Node from "./Node"; // Assuming Node component is defined elsewhere
 
-function Board(props) {
-  //these are for tracing if a user set start and end yet
-  const startNode = props.startNode
-  const endNode = props.endNode
-
+function Board() {
   const createNode = (row, col) => {
     return {
       row,
@@ -16,7 +12,7 @@ function Board(props) {
     };
   };
 
-  //for initial board and whenever resetting board
+  // Generate a new grid for the initial board or whenever resetting the board
   const newGrid = () => {
     const grid = [];
     for (let row = 0; row < 20; row++) {
@@ -29,59 +25,80 @@ function Board(props) {
     return grid;
   };
 
-  //make 'walls' when pressed
-  //I need to check if the current node is start of end
+  const [startNode, setStartNode] = useState(false);
+  const [endNode, setEndNode] = useState(false);
+  const [grid, setGrid] = useState(newGrid());
+
+  // Change node based on start/end node flags or toggle walls
+  const changeNode = (node) => {
+    if (!startNode || node.isStart) {
+      setStartNode(!startNode);
+      console.log("changing startnode");
+      return { ...node, isStart: !node.isStart };
+    } else if (!endNode || node.isEnd) {
+      setEndNode(!endNode);
+      console.log("changing endnode");
+      return { ...node, isEnd: !node.isEnd };
+    } else if (!node.isStart && !node.isEnd) {
+      return { ...node, isWall: !node.isWall };
+    }
+  };
+
+  //const changeNode = (node) => {
+  //  if (!startNode && !node.isEnd) {
+  //    setStartNode(true);
+  //    return { ...node, isStart: !node.isStart };
+  //  } else if (!endNode && !node.isStart) {
+  //    setEndNode(true);
+  //    return { ...node, isEnd: !node.isEnd };
+  //  } else {
+  //    return { ...node, isWall: !node.isWall };
+  //  }
+  //};
+
+  // Toggle wall on the grid
   const toggleWall = (grid, row, col) => {
-    //we are shallow copying the grid so we don't update it without 'set' method
     const newGrid = grid.slice();
     const node = newGrid[row][col];
-    const newNode = {
-      ...node,
-      isWall: !node.isWall,
-    };
+    const newNode = changeNode(node);
     newGrid[row][col] = newNode;
     return newGrid;
   };
 
-  const [grid, setGrid] = useState(newGrid);
+  // Handle mouse down event
+  const handleMouseDown = (row, col) => {
+    setGrid(toggleWall(grid, row, col));
+  };
 
-  function handlMouseDown(row, col) {
-    if (!grid[row][col].isStart && !grid[row][col].isEnd) {
-      setGrid(toggleWall(grid, row, col));
-    }
-    console.log(grid[row][col]);
-  }
-
-  //may need this for dragging multiple cells to create walls, we'll see
-  function handleMouseUp(row, col) {
+  // Handle mouse enter event for potential dragging functionality
+  const handleMouseEnter = (row, col) => {
     console.log({ row }, { col });
-  }
-  //coupled with handleMouseUp function
-  function handleMouseEnter(row, col) {
-    console.log({row}, {col})
-  }
+  };
+
+  // Handle mouse up event (for future functionality)
+  const handleMouseUp = (row, col) => {
+    console.log({ row }, { col });
+  };
 
   return (
     <div className="grid">
-      {grid.map((row, rowIdx) => {
-        return (
-          <div key={rowIdx}>
-            {row.map((node, colIdx) => {
-              return (
-                <Node
-                  key={(rowIdx, colIdx)}
-                  row={rowIdx}
-                  col={colIdx}
-                  isStart={node.isStart}
-                  isEnd={node.isEnd}
-                  isWall={node.isWall}
-                  handleMouseDown={handlMouseDown}
-                />
-              );
-            })}
-          </div>
-        );
-      })}
+      {grid.map((row, rowIdx) => (
+        <div key={rowIdx}>
+          {row.map((node, colIdx) => (
+            <Node
+              key={`${rowIdx}-${colIdx}`}
+              row={rowIdx}
+              col={colIdx}
+              isStart={node.isStart}
+              isEnd={node.isEnd}
+              isWall={node.isWall}
+              handleMouseDown={() => handleMouseDown(rowIdx, colIdx)}
+              handleMouseEnter={() => handleMouseEnter(rowIdx, colIdx)}
+              handleMouseUp={() => handleMouseUp(rowIdx, colIdx)}
+            />
+          ))}
+        </div>
+      ))}
     </div>
   );
 }

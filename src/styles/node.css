@@ -6,6 +6,14 @@
   height: 30px;
 }
 
-.wall {
+.node-start {
+  background-color: red;
+}
+
+.node-end {
+  background-color: blue;
+}
+
+.node-wall {
   background-color: black;
 }
