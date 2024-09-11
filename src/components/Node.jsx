@@ -13,6 +13,8 @@ function Node(props) {
     <div
       className={`node ${extraClassName}`}
       onMouseDown={props.handleMouseDown}
+      onMouseUp={props.handleMouseUp}
+      onMouseEnter={props.handleMouseEnter}
     ></div>
   );
 }

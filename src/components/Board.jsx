@@ -28,33 +28,20 @@ function Board() {
   const [startNode, setStartNode] = useState(false);
   const [endNode, setEndNode] = useState(false);
   const [grid, setGrid] = useState(newGrid());
-
   // Change node based on start/end node flags or toggle walls
+  const [mousePressed, setMousePressed] = useState(false);
+
   const changeNode = (node) => {
     if (!startNode || node.isStart) {
       setStartNode(!startNode);
-      console.log("changing startnode");
       return { ...node, isStart: !node.isStart };
     } else if (!endNode || node.isEnd) {
       setEndNode(!endNode);
-      console.log("changing endnode");
       return { ...node, isEnd: !node.isEnd };
     } else if (!node.isStart && !node.isEnd) {
       return { ...node, isWall: !node.isWall };
     }
   };
-
-  //const changeNode = (node) => {
-  //  if (!startNode && !node.isEnd) {
-  //    setStartNode(true);
-  //    return { ...node, isStart: !node.isStart };
-  //  } else if (!endNode && !node.isStart) {
-  //    setEndNode(true);
-  //    return { ...node, isEnd: !node.isEnd };
-  //  } else {
-  //    return { ...node, isWall: !node.isWall };
-  //  }
-  //};
 
   // Toggle wall on the grid
   const toggleWall = (grid, row, col) => {
@@ -68,16 +55,19 @@ function Board() {
   // Handle mouse down event
   const handleMouseDown = (row, col) => {
     setGrid(toggleWall(grid, row, col));
+    setMousePressed(true);
   };
 
   // Handle mouse enter event for potential dragging functionality
   const handleMouseEnter = (row, col) => {
-    console.log({ row }, { col });
+    if (!mousePressed) return;
+    const newGrid = toggleWall(grid, row, col);
+    setGrid(newGrid);
   };
 
   // Handle mouse up event (for future functionality)
   const handleMouseUp = (row, col) => {
-    console.log({ row }, { col });
+    setMousePressed(false);
   };
 
   return (
